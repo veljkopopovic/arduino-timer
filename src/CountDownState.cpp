@@ -1,30 +1,44 @@
 #include "CountDownState.h"
 #include <Arduino.h>
+#include <MultiFuncShield.h>
 
-CountDownState::CountDownState(int stage, int seconds) : CounterState(stage) {
-  this->seconds = seconds;
+CountDownState::CountDownState(int seconds) : CounterState() {
+  this->seconds = 0;
   this->currentMiliseconds = 0;
+  this->stateDuration = seconds;
 }
 
 void CountDownState::activate() {
+  this->seconds = this->stateDuration;
   this->currentMiliseconds = millis();
-  Serial.print("Stage with id ");
-  Serial.print(this->getStateID(), DEC);
-  Serial.println(" has been activated.");
+  this->log("Countdown state activated");
 }
 
-bool CountDownState::nextStep() {
+void CountDownState::nextStep() {
   this->processButtons();
   int now = millis();
-  if (now = this->currentMiliseconds < 1000) {
+  if (now - this->currentMiliseconds < 1000) {
     //nothing to be done
-    return false;
+    return;
   }
 
   this->currentMiliseconds = now;
   this->seconds--;
-  return true;
+  MFS.write(this->seconds);
+}
+
+void CountDownState::processButtons() {
+  //TODO
 }
 
 void CountDownState::stop() {
+  this->log("Countdown state has been stopped");
+}
+
+bool CountDownState::shouldStop() {
+  return this->seconds == -1;
+}
+
+int CountDownState::stopReason() {
+  return 1;
 }

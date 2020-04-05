@@ -3,19 +3,17 @@
 
 class CounterState {
   public:
-    CounterState(int);
     virtual void activate();
-    virtual bool nextStep();
+    virtual void nextStep();
     virtual void stop();
-    void processButtons();
+    virtual bool shouldStop();
+    virtual int stopReason();
 
   protected:
-    int getStateID();
-    void log (const char* data);
+    void log (const char* content);
 
   private:
     int stageId;
-    bool isActive;
 };
 
 #endif

@@ -5,10 +5,15 @@
 
 class IdleState : public CounterState {
   public:
-    IdleState(int stage);
+    IdleState();
     void activate();
-    bool nextStep();
+    void nextStep();
     void stop();
+    bool shouldStop();
+    int stopReason();
+  private:
+    void checkIfButtonPressed();
+    int buttonPressed;
 };
 
 #endif

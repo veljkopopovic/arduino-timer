@@ -5,13 +5,17 @@
 
 class CountDownState : public CounterState {
   public:
-    CountDownState(int stage, int seconds);
+    CountDownState(int seconds);
     void activate();
-    bool nextStep();
+    void nextStep();
     void stop();
+    bool shouldStop();
+    int stopReason();
 
   private:
+    void processButtons();
     int seconds;
     int currentMiliseconds;
+    int stateDuration;
 };
 #endif
