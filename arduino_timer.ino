@@ -4,8 +4,9 @@
 #include "src/CounterState.h"
 #include "src/CountDownState.h"
 #include "src/IdleState.h"
+#include "src/ButtonHandler.h"
 
-int state = 0;
+byte state = 0;
 
 CounterState* teethWashTimer = new CountDownState(20);
 CounterState* handWashTimer = new CountDownState(120);
@@ -18,11 +19,14 @@ void setup() {
   Timer1.initialize();
   Serial.begin(9600);
   MFS.initialize(&Timer1);
+  ButtonHandler::getInstance()->initialize(3);
+
   MFS.beep(1,0,3,3);
   gotoState(0);
 }
 
 void loop() {
+  ButtonHandler::getInstance()->consume();
   activeState->nextStep();
   if (activeState->shouldStop()) {
     processStopReason();
@@ -31,7 +35,7 @@ void loop() {
 }
 
 void processStopReason() {
-  const int reason = activeState->stopReason();
+  const byte reason = activeState->stopReason();
   if (state == 0) {
     gotoState(reason);
     return;
@@ -42,7 +46,7 @@ void processStopReason() {
   }
 }
 
-void gotoState(int localStage) {
+void gotoState(byte localStage) {
   state = localStage;
   Serial.print("About to activate state ");
   Serial.println(state, DEC);
@@ -64,6 +68,10 @@ void gotoState(int localStage) {
       activeState = handWashTimer;
       break;
     }
+    default: {
+      gotoState(0);
+    }
   }
+  ButtonHandler::getInstance()->resetAllButtons();
   activeState->activate();
 }

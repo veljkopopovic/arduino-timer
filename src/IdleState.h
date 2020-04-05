@@ -10,10 +10,9 @@ class IdleState : public CounterState {
     void nextStep();
     void stop();
     bool shouldStop();
-    int stopReason();
+    byte stopReason();
   private:
-    void checkIfButtonPressed();
-    int buttonPressed;
+    byte buttonPressed;
 };
 
 #endif

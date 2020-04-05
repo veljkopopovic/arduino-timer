@@ -2,20 +2,21 @@
 #define CountDownState_h_
 
 #include "CounterState.h"
+#include <Arduino.h>
 
 class CountDownState : public CounterState {
   public:
-    CountDownState(int seconds);
+    CountDownState(byte seconds);
     void activate();
     void nextStep();
     void stop();
     bool shouldStop();
-    int stopReason();
+    byte stopReason();
 
   private:
     void processButtons();
-    int seconds;
-    int currentMiliseconds;
-    int stateDuration;
+    byte seconds;
+    unsigned long currentMiliseconds;;
+    byte stateDuration;
 };
 #endif
