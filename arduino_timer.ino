@@ -5,6 +5,7 @@
 #include "src/CountDownState.h"
 #include "src/IdleState.h"
 #include "src/ButtonHandler.h"
+#include "src/Logger.h"
 
 byte state = 0;
 
@@ -16,6 +17,7 @@ CounterState* activeState = NULL;
 
 void setup() {
   // put your setup code here, to run once:
+
   Timer1.initialize();
   Serial.begin(9600);
   MFS.initialize(&Timer1);

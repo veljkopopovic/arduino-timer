@@ -2,6 +2,7 @@
 #include "Arduino.h"
 #include <MultiFuncShield.h>
 #include "ButtonHandler.h"
+#include "Logger.h"
 
 IdleState::IdleState() {
 }
@@ -27,7 +28,7 @@ void IdleState::stop() {
   MFS.beep();
   MFS.beep();
   this->buttonPressed = 0;
-  this->log("Idle state stopped");
+  Logger::log("Idle state stopped");
 }
 
 bool IdleState::shouldStop() {

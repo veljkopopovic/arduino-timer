@@ -10,12 +10,6 @@ class CounterState {
     virtual void stop();
     virtual bool shouldStop();
     virtual byte stopReason();
-
-  protected:
-    void log (const char* content);
-
-  private:
-    byte stageId;
 };
 
 #endif

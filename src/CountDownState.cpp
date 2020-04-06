@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <MultiFuncShield.h>
 #include "ButtonHandler.h"
+#include "Logger.h"
 
 void sendToDisplay(byte seconds) {
   MFS.write(seconds);
@@ -17,7 +18,7 @@ void CountDownState::activate() {
   this->seconds = this->stateDuration;
   this->currentMiliseconds = millis();
   sendToDisplay(this->seconds);
-  this->log("Countdown state activated");
+  Logger::log("Countdown state activated");
 }
 
 void CountDownState::nextStep() {
@@ -39,13 +40,13 @@ void CountDownState::nextStep() {
 
 void CountDownState::processButtons() {
   if (ButtonHandler::getInstance()->areAnyTwoButtonsPressed()) {
-    this->log("Stop button combination has beeen detected");
+    Logger::log("Stop button combination has beeen detected");
     this->seconds = 0;
   }
 }
 
 void CountDownState::stop() {
-  this->log("Countdown state has been stopped");
+  Logger::log("Countdown state has been stopped");
 }
 
 bool CountDownState::shouldStop() {
